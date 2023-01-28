@@ -1,0 +1,106 @@
+err0r's demo of RUbar method
+RUbar is the first method to fully combine moveset reduction with bandaged reduction.
+Each major step is a moveset reduction:
+ - At first, we can turn the cube with any moves
+ - But the first step reduces the cube into a smaller puzzle where only <R, U, M, E> moves are allowed
+ - In the 2nd step, we turn in <R, U, M, E> to reduce the cube into an even smaller puzzle solvable with <R, U, M>.
+ - This continues... until there are no available moves left and the cube is solved
+
+What makes this method special is, every moveset reduction is also a bandaged reduction!
+ - At first, the cube has no bandages
+ - But the first step reduces the cube into a bandaged cube where the DBL, DL, and DFL pieces are glued into a solved bar
+ - In the 2nd step, we turn without breaking the bar to reduce the cube into an even more bandaged cube where a solved Roux FB is fused together
+ - This continues... until the cube gets bandaged into a 1x1x1 cube and is therefore solved
+
+Therefore, this hybrid method inherits properties of both moveset and bandaged reduction
+ - Like moveset reduction: allowed turns are always possible, so you can use traditional techniques like blockbuilding, algs, and commutators
+ - Like bandaged reduction: none of your progress ever gets broken, not even momentarily! Properties like blocks, EO, CP are always preserved after you solve them
+
+As with RUP and PPW, the cube eventually gets bandaged so much that, the only turns available will always solve the cube eventually. This is what I call a "self-solving" bandage, and it feels truly magical.
+ - In methods like CFOP, last layer is so restricted there is no obvious way to solve it, so you have to use algs
+ - in self-solving methods, the last bandage is so restricted it guides you through the single obvious way to solve it.
+
+Are you intrigued? Grab a cube and a roll of masking tape, and I'll walk you through a demo of RUbar.
+
+Scramble: D2 L2 F2 D2 R' B2 F2 R U2 R2 U2 F2 U B' L' B' R B F2 R' F'
+
+----- STEP 1: Reduce to <R, U, M, E> -----
+We want to solve a "line" made of two corners and an edge. It will be bandaged: once we make it, we'll never break it again.
+But that means we'll be stuck with <R, U, M, E> moves which doesn't have the power to swap corners! (<M, E> doesn't affect corners, and <R, U> can't swap corners)
+So at the same time, we need to also solve CP (corner permutation), which swaps the corners right now to make them solvable with <R, U> moves later.
+This step is difficult and also present in existing methods (Briggs, 2GR) so I won't explain it here.
+It's called "CPLine", you can learn about it here https://john-ml.github.io/2GR/CPLine/CPLine.html
+
+F2 M2 F' U2 R f2 // CPLine
+
+Now that it's solved, grab your masking tape and join the line together.
+
+----- STEP 2: Reduce to <R, U, M> -----
+Next step is to extend the line into a 1x2x3 block (known as Roux FB), but remember we're stuck in <R, U, M, E> to preserve the line! Also, r and u moves are allowed because r = R M' and u = U E'.
+This is done intuitively.
+
+E' M' U r' u2 // FB
+
+Grab another strip of tape and join the FB together.
+
+----- STEP 3: Reduce to <R, U> -----
+Solve EO (edge orientation) while also forming a "stripe" of the DB and DF edges. That will extend the 1x2x3 block into a 2x2x3 block.
+This step is called EOStripe and it's the same as Briggs. We have 4 bad edges, so we can gather them around the B centre with M R, then turn the B centre (executed as a U move since B centre is at the top). This eliminates the 4 bad edges. Then we can move the B centre back with a wide r. After that, intuitively form the stripe.
+
+M R U r // EO
+R2 U r2 // make the stripe, use it to expand the block into a 2x2x3
+
+Add more tape to fuse the 2x2x3 together.
+
+----- STEP 4: Reduce to <R2, U> -----
+This is where RUbar diverges from Briggs and gets unique.
+We need to solve the "belt" which is a bar made of the FR and BR "belt edges", attached to the R centre.
+The belt can be in a solved position, or an R2 away.
+I call the FR and BR edges "belt edges".
+
+Step 4a: form a pseudo-square. It's made of a belt edge attached to the R centre, plus a pseudo-pair. The pseudo-pair is made of an edge (a belt-edge) and a corner (has to be oriented so the its U/D sticker is facing down).
+
+R2 // oh nice, pseudo-square is already made! move it into position with a R2
+
+Add a small strip of tape to join the blue-red edge with the blue centre.
+
+Step 4b: insert a corner into DFR, twisted so that the U/D sticker is on the F face
+U R U' R' // insert twisted corner
+
+Step 4c: use an COBelt alg. It will transform the whole situation, forming a belt and orienting all the corners.
+
+R' U' R U R // COBelt alg
+
+Now tape the belt together.
+
+----- STEP 5: Reduce to <R2, U2> -----
+This is where bandaged techniques really start to shine.
+
+Step 5a: form a pair (a corner and an edge, but they must share two colours: U/D colours AND L/R colours)
+R2 U R2 // 1st pair, the corner and edge share D (yellow) and R (blue) colours
+Tape the pair together.
+
+Step 5b: form another pair, same rules but it also needs to be the opposite "direction" from the first.
+For both pairs, imagine an arrow that points from the edge to the corner, going clockwise or counterclockwise. The two arrows need to be in different directions.
+
+U' R2 U R2 // ugh annoying case
+U' R2 U R2 // 2nd pair
+Tape the pair together.
+
+Step 5c: fix corner orbit
+First, move the pairs to the "home position", where the pairs are on the top and parallel, sticking towards the left side
+U' R2 U' // move to home position
+Then, if the corners on the R layer aren't solved or an R2 away, use this bandaged alg to "fix the corner orbit" so the corners are an R2 away from solved.
+U R2 U' R2 U' R2 U' R2 U // fix corner orbit
+
+Step 5d: permute the edges
+We're supposed to permute edges with conjugates of (R2 U2 R2 U2 R2 U2), which swaps edges. However, looks like we skipped that step!
+
+Step 5e: form 5 bars
+Either do R2 or nothing, whichever forms these 5 "bars" of 3 matching pieces each. Then a U/U' to align the bars to be parallel if needed.
+R2 U' // 5bars
+Now tape the bars together
+
+----- STEP 6: Reduce to <> -----
+Keep turning in <R2, U2> and the cube will solve itself!
+R2 U2 R2 U2 R2 // solves itself!
